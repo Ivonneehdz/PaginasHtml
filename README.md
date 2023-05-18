@@ -1,2 +1,2 @@
-# PaginasHtml
-En este repositorio se pueden encontrar programas realizados en Html 5, utilizando CSS y JS.  Programas más básicos, hasta de más dificultad. 
+# PÁGINAS EN HTML
+Se mostraran páginas realizados en HTML 5, así como JS y CSS. Estas páginas que se están realizando son con los conocimientos que he adquirido en la materia de Diseño Web que estoy llevando en mi universidad.
