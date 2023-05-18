@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+    <meta charset="utf-8">
+    <title>Reloj ⌛</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4f2948;
+        }
+
+        #marco {
+            margin: 20px auto;
+        }
+
+        circle {
+            opacity: 0.8;
+        }
+
+        #base {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4f2948;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body onload="cara()">
+    <h1>Reloj ⌛</h1>
+    <h2> <b>Hora actual:</b> </h2> <br>
+    <p>
+        <input type="text" disabled id="hora" >
+        <button onclick="leerHora()">LEER HORA</button>
+    </p>
+    <svg id="marco" width="400" height="400">
+        <circle fill="#4f2948" cx="200" cy="200" r="200"></circle>
+        <circle fill="#f981c2" cx="200" cy="15" r="15"></circle>
+        <circle fill="#f981c2" cx="385" cy="200" r="15"></circle>
+        <circle fill="#f981c2" cx="200" cy="385" r="15"></circle>
+        <circle fill="#f981c2" cx="15" cy="200" r="15"></circle>
+        <circle fill=" #670018"  cx="200" cy="195" r="15"></circle>
+        <line id="horario" stroke="#ffbbf3" stroke-width="7" x1="200" y1="200" x2="200" y2="270"></line>
+        <line id="minutero" stroke="#f981c2" stroke-width="5" x1="200" y1="200" x2="200" y2="395"></line>
+        <line id="segundero" stroke="#ffbbf3" stroke-width="3" x1="200" y1="200" x2="200" y2="399"></line>
+        <text fill="#ffb3bd" x="200" y="15" text-anchor="middle" dominant-baseline="middle" id="base">12</text>
+    </svg>
+    
+    <script>
+        const marco = document.getElementById('marco')
+        const horario = document.getElementById('horario')
+        const minutero = document.getElementById('minutero')
+        const segundero = document.getElementById('segundero')
+        const hora = document.getElementById('hora')
+        const base = document.getElementById('base')
+        function leerHora() {
+            const fecha = new Date();
+            const horaActual = fecha.toTimeString();
+            hora.value = horaActual;
+
+            const hablador = window.speechSynthesis;
+            const voces = hablador.getVoices();
+            const voz = 245; // Índice de la voz que deseas utilizar
+
+            const vociferacion = new SpeechSynthesisUtterance();
+            vociferacion.text = horaActual;
+            vociferacion.voice = voces[voz];
+            hablador.speak(vociferacion);
+        }
+        function rotarhorario(angulo) {
+            const radio = 70
+            const x = (Math.cos(-angulo) * radio) + 200
+            const y = (Math.sin(-angulo) * radio) + 200
+            horario.setAttribute('x2', x)
+            horario.setAttribute('y2', y)
+        }
+        function rotarMinutero(angulo) {
+            const radio = 195
+            const x = (Math.cos(-angulo) * radio) + 200
+            const y = (Math.sin(-angulo) * radio) + 200
+            minutero.setAttribute('x2', x)
+            minutero.setAttribute('y2', y)
+        }
+        function rotarSegundero(angulo) {
+            const radio = 199
+            const x = (Math.cos(-angulo) * radio) + 200
+            const y = (Math.sin(-angulo) * radio) + 200
+            segundero.setAttribute('x2', x)
+            segundero.setAttribute('y2', y)
+        }
+        function cara() {
+            const radio = 185
+            for (let i = 1; i <= 11; i++) {
+                const marca = base.cloneNode()
+                marca.id = 'm' + i
+                const angulo = (i * Math.PI / 6) - (Math.PI / 2)
+                const x = 200 + Math.cos(angulo) * radio
+                const y = 200 + Math.sin(angulo) * radio
+                marca.setAttribute('x', x)
+                marca.setAttribute('y', y)
+                marca.innerHTML = i
+                marco.append(marca)
+            }
+            for (let i = 1; i <= 59; i++) {
+                const marca = base.cloneNode()
+                marca.id = 's' + i
+                const angulo = (i * Math.PI / 30) - (Math.PI / 2)
+                const x = 200 + Math.cos(angulo) * radio
+                const y = 200 + Math.sin(angulo) * radio
+                marca.setAttribute('x', x)
+                marca.setAttribute('y', y)
+                marca.innerHTML = '.'
+                marco.append(marca)
+            } 
+
+        }
+        function actualizar() {
+            const fecha = new Date()
+            const texto = fecha.toTimeString().substr(0, 8)
+            hora.value = texto
+            const valores = texto.split(':')
+            const anguloS = ((+valores[2] / 30) * Math.PI) - (Math.PI / 2)
+            const anguloM = ((+valores[1] / 30) * Math.PI) - (Math.PI / 2)
+            const anguloH = ((+valores[0] / 6) * Math.PI) - (Math.PI / 2)
+            rotarSegundero(-anguloS)
+            rotarMinutero(-anguloM)
+            rotarhorario(-anguloH)
+        }
+       
+        setInterval(actualizar, 30)
+    </script>
+</body>
+
+</html>

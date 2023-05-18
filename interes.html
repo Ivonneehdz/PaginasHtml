@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interés 🪴</title>
+    <style>
+        td,
+        table {
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Interés 🪴</h1>
+    <p>
+        <label> Tasa de interés: </label>
+        <input type="number" value="11.65" id="i" onchange="calcular ()"> %
+    </p>
+    <p>
+        <label>Número de periodos</label>
+        <input type="number" value="2" id="n" onchange="calcular ()"> años
+    </p>
+    <p>
+        <label>Cantidad inicial: </label>
+        $MXN<input type="number" value="100" id="P" onchange="calcular ()">
+    </p>
+    <svg id="dibujo" width="400" height="250">
+        <rect id="barra" x="-100" y="-100" width="10" height="200" fill="blue"> </rect>
+        <text  id= "valor" fill ="black" x="-100" y="-100"></text>
+    </svg>
+    <table id="resultados"></table>
+    <script>
+        function valor(id) {
+            return document.getElementById(id).value
+
+        }
+        function calcular() {
+            const n = valor('n') * 2
+            const i = valor('i') / 100
+            const P = +valor('P')
+
+            const dibujo = document.getElementById('dibujo')
+            const resultados = document.getElementById('resultados')
+            let acumulado = P
+            for (let contador = 0; contador < n; contador++) {
+                const barra = document.getElementById('barra').cloneNode()
+                const valor = document.getElementById('valor').cloneNode()
+                const fila = document.createElement('tr')
+                const c1 = document.createElement('td')
+                const c2 = document.createElement('td')
+                const c3 = document.createElement('td')
+                const c4 = document.createElement('td')
+                acumulado += acumulado * i
+                c1.innerText = '$' + P.toFixed(2)
+                c2.innerText = (1 * 100) + '%'
+                c3.innerText = 'Periodo ' + contador + ' de ' + n
+                //toFixed sirve para acortar el número, en este caso sobre el número decimal
+                c4.innerText = '$' + acumulado.toFixed(2)
+                barra.setAttribute('height', acumulado)
+                barra.setAttribute('x', contador * 15)
+                barra.setAttribute('y', (contador+1)/20)
+               
+                dibujo.append(barra)
+
+                fila.append(c1)
+                fila.append(c2)
+                fila.append(c3)
+                fila.append(c4)
+
+                resultados.append(fila)
+            }
+            for (let contador = 0; contador < n; contador++) { 
+            const etiqueta = document.createElementNS("http://www.w3.org/1999/xhtml")
+            acumulado+=acumulado*i
+            
+            etiqueta.setAttribute("y",acumulado+20)
+                etiqueta.setAttribute ("x",(contador+1*20+5))
+               
+                etiqueta.setAttribute("fill","black" )
+                etiqueta.setAttribute("text-anchor","start")
+                etiqueta.setAttribute("dominant-baseline","text-bottom" )
+                etiqueta.textContent= "$" + acumulado.toFixed()
+                dibujo.append (etiqueta)
+            }
+
+
+
+
+        }
+    </script>
+
+</body>
+
+</html>

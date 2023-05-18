@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lectura de texto 🗣</title>
+</head>
+
+<body>
+    <h1>Lectura de texto 🗣</h1>
+    <p>Seleccione una voz:</p>
+    <select id="voces">
+    </select>
+    <p>
+        <button onclick="leer()">Leer</button>
+    </p>
+    <p>Mensaje: </p>
+    <textarea id="mensaje">Hola</textarea>
+    <script>
+        const hablador = window.speechSynthesis
+        let voces = null
+        hablador.onvoiceschanged = () => {
+            // cuando termine de cargar las voces.
+            voces = hablador.getVoices()
+            voces.forEach(porCadaUnaDeLasVoces)
+
+        }
+        const porCadaUnaDeLasVoces = (voz, indice) => {
+            const opcion = document.createElement('option')
+            opcion.value = indice
+            opcion.innerText = voz.name
+            document.getElementById('voces').append(opcion)
+        }
+        const leer = () => {
+            const mensaje = document.getElementById('mensaje').innerHTML
+            const vociferacion = new SpeechSynthesisUtterance()
+            vociferacion.text = mensaje
+            const voz = +document.createElement('voces').value
+            vociferacion.voice = voces[voz]
+            hablador.speak(vociferacion)
+        }
+    </script>
+</body>

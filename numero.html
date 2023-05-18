@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+    <head>
+        <title>🔢Número</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <style>
+            body{
+                background: black;
+                color: azure;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🔢Número</h1>
+        <p>Número</p>
+        <input type="number" value="0" id="entrada">
+        <button onclick="escribir ()">Escribir ✏️</button>
+        <span id="resultado"></span>
+        <script>
+            const numero = document.getElementById('entrada')
+            const resutado = document.getElementById('resultado')
+            function unidad(numero) {
+                return numero % 10
+            }
+            function decena(numero) {
+                const sinUnidades = numero - unidad (numero)
+                const soloDecenas = sinUnidades % 100
+                const digito = soloDecenas / 10
+                return digito
+            }
+            const d = [
+                '',
+                'diez',
+                'veinte',
+                'treinta',
+                'cuarenta',
+                'cincuenta',
+                'sesenta',
+                'setenta',
+                'ochenta',
+                'noventa'
+            ]
+            function centena(numero) {
+                return ((numero-unidad(numero) - decena(numero)*10%1000)%100) / 10
+            }
+            function basico (numero){
+                if (numero===1) return 'uno'
+                else if (numero===2) return 'dos'
+                else if (numero===3) return 'tres'
+                else if (numero===4) return 'cuatro'
+                else if (numero===5) return 'cinco'
+                else if (numero===6) return 'seis'
+                else if (numero===7) return 'siete'
+                else if (numero===8) return 'ocho'
+                else if (numero===9) return 'nueve'
+                else if (numero===10) return 'diez'
+                else if (numero===11) return 'once'
+                else if (numero===12) return 'doce'
+                else if (numero===13) return 'trece'
+                else if (numero===14) return 'catorce'
+                else if (numero===15) return 'quince'
+                else if (numero===0) return 'cero'
+
+            }
+            function escribir (){
+                const numero = +entrada.value
+                const texto =''
+                const cen = centena (numero)
+                if (cen != 0 ) texto = c[cen]
+                if (cen ===1 && dec!== 0  && uni !==0)
+                resultado= innerText
+
+            }
+        </script>
+    </body>
+</html>
